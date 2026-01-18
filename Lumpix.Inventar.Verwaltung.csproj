@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>Lumpix.Inventar.Verwaltung_</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>2897785.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="2897785.png" />
+    <None Remove="add-ellipse-svgrepo-com.png" />
+    <None Remove="export-2-svgrepo-com.png" />
+    <None Remove="import-2-svgrepo-com.png" />
+    <None Remove="remove-ellipse-svgrepo-com.png" />
+    <None Remove="save\PFAD.txt" />
+    <None Remove="save\Type_Save.txt" />
+    <None Remove="settings-svgrepo-com.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="2897785.ico" />
+    <Content Include="save\PFAD.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="save\Type_Save.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="2897785.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="add-ellipse-svgrepo-com.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="export-2-svgrepo-com.png" />
+    <Resource Include="import-2-svgrepo-com.png" />
+    <Resource Include="remove-ellipse-svgrepo-com.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="settings-svgrepo-com.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>
