@@ -22,6 +22,7 @@ namespace Lumpix.Inventar.Verwaltung_
         #region int
         int Index = 0;
         int Item_Count = 0;
+        int selected_index = 0;
         #endregion
         #region dictionaries
         private Dictionary<int, string> Types_dict = new Dictionary<int, string>();
@@ -41,7 +42,7 @@ namespace Lumpix.Inventar.Verwaltung_
             }
             return null;
         }
-        
+
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (isSyncingScroll) return;
@@ -120,13 +121,13 @@ namespace Lumpix.Inventar.Verwaltung_
             string text = File.ReadAllText(pfad_Type_Save);
             string[] Gegenstände = text.Split("\n");
             Index = 0;
+            Types_dict.Clear();
+            Types.Items.Add("Type Name");
+            Types.Items.Add("");
+            Factor.Items.Add("Factor");
+            Factor.Items.Add("");
             foreach (var Gegenstand in Gegenstände)
             {
-                Types_dict.Clear();
-                Types.Items.Add("Type Name");
-                Types.Items.Add("");
-                Factor.Items.Add("Factor");
-                Factor.Items.Add("");
                 try
                 {
                     string[] Items1 = Gegenstand.Split(Trenner.trenner);
@@ -159,47 +160,60 @@ namespace Lumpix.Inventar.Verwaltung_
         {
             Types.Items.Add("[Neuer Typ]");
             Factor.Items.Add("1.0");
-            Types.SelectedIndex = Types_dict.Count + 3;
+            Types.SelectedIndex = Types_dict.Count + 2;
             txt_type_name.Text = "[Neuer Typ]";
             txt_type_factor.Text = "1.0";
-            Types_dict.Add(Types_dict.Count + 1, "[Neuer Typ]");
-            Factor_dict.Add(Types_dict.Count + 1, 1.0f);
+            Types_dict.Add(Types_dict.Count, "[Neuer Typ]");
+            Factor_dict.Add(Types_dict.Count, 1.0f);
         }
         #endregion
-        #region Change Types TODO: save selections after change
+        #region Change Types
         private void txt_type_name_LostFocus(object sender, RoutedEventArgs e)
         {
             try
             {
-                Types_dict[Types.SelectedIndex - 2] = txt_type_name.Text;
-                Types.Items[Types.SelectedIndex] = txt_type_name.Text;
-                
-            }
-            catch 
-            { 
-                MessageBox.Show("Bitte wählen sie einen Validen Typ den sie ändern möchten aus.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            Types.SelectedIndex = Types.SelectedIndex;
-        }
-        private void txt_type_factor_LostFocus(object sender, RoutedEventArgs e)
-        {
-            // Speichere den aktuellen Index
-            int selectedIndex = Types.SelectedIndex;
+                Types_dict[selected_index - 2] = txt_type_name.Text;
+                Types.Items[selected_index] = txt_type_name.Text;
 
-            try
-            {
-                Factor_dict[selectedIndex - 2] = float.Parse(txt_type_factor.Text);
-
-                Factor.Items[selectedIndex] = txt_type_factor.Text;
             }
             catch
             {
                 MessageBox.Show("Bitte wählen sie einen Validen Typ den sie ändern möchten aus.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            Types.SelectedIndex = selectedIndex;
+            Types.SelectedIndex = selected_index;
         }
-        #endregion
-        #endregion
-
+        private void txt_type_factor_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Factor_dict[selected_index - 2] = float.Parse(txt_type_factor.Text);
+                Factor.Items[selected_index] = txt_type_factor.Text;
+            }
+            catch
+            {
+                MessageBox.Show("Bitte wählen sie einen Validen Typ den sie ändern möchten aus.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            Types.SelectedIndex = selected_index;
+        }
+        private void Types_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Types.SelectedIndex > 1)
+            {
+                selected_index = Types.SelectedIndex;
+                Factor.SelectedIndex = selected_index;
+                try
+                {
+                    txt_type_name.Text = Types.SelectedItem.ToString();
+                    txt_type_factor.Text = Factor.SelectedItem.ToString();
+                }
+                catch
+                {
+                    txt_type_name.Text = "ERROR";
+                    txt_type_factor.Text = "404";
+                }
+            }
+            #endregion
+            #endregion
+        }
     }
 }

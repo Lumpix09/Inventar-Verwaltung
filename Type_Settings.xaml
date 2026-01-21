@@ -27,7 +27,7 @@
 
         <Label Content="Types Ändern" Grid.ColumnSpan="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="25" FontFamily="Good Times"/>
         
-        <ListView Grid.Column="3" Grid.ColumnSpan="1" Grid.Row="1" Grid.RowSpan="6" Background="AliceBlue" Margin="0,7" FontFamily="Good Times" Name="Types"/>
+        <ListView Grid.Column="3" Grid.ColumnSpan="1" Grid.Row="1" Grid.RowSpan="6" Background="AliceBlue" Margin="0,7" FontFamily="Good Times" Name="Types" SelectionChanged="Types_SelectionChanged"/>
         <ListView Grid.Column="4" Grid.ColumnSpan="1" Grid.Row="1" Grid.RowSpan="6" Background="Azure" Margin="0,7,7,7" FontFamily="Good Times" IsHitTestVisible="False" Name="Factor"/>
         
         <Button Name="btn_import_data" Grid.Row="6" Grid.Column="0" MaxHeight="50" MaxWidth="50" Click="btn_import_data_Click" Background="white">
