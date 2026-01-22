@@ -65,6 +65,7 @@ namespace Lumpix.Inventar.Verwaltung_
             InitializeComponent();
             Loaded += OnType_Settings_Loaded;
         }
+        #endregion
         private void OnType_Settings_Loaded(object sender, RoutedEventArgs e)
         {
             scrollViewer1 = GetScrollViewer(Types);
@@ -74,8 +75,20 @@ namespace Lumpix.Inventar.Verwaltung_
 
             if (scrollViewer2 != null)
                 scrollViewer2.ScrollChanged += ScrollViewer_ScrollChanged;
+
+            if ("" != File.ReadAllText(pfad_Type_Save) && null != File.ReadAllText(pfad_Type_Save))
+            {
+                Load_Types();
+            }
+            else
+            {
+                Types_dict.Clear();
+                Types.Items.Add("Type Name");
+                Types.Items.Add("");
+                Factor.Items.Add("Factor");
+                Factor.Items.Add("");
+            }
         }
-        #endregion
         #region Types verwaltung
         #region import export data
         private void btn_import_data_Click(object sender, RoutedEventArgs e)
@@ -155,7 +168,7 @@ namespace Lumpix.Inventar.Verwaltung_
             File.WriteAllText(pfad_Type_Save, text);
         }
         #endregion
-        #region add remove Types TODO: "remove" funktion
+        #region add remove Types
         private void btn_add_type_Click(object sender, RoutedEventArgs e)
         {
             Types.Items.Add("[Neuer Typ]");
@@ -165,6 +178,37 @@ namespace Lumpix.Inventar.Verwaltung_
             txt_type_factor.Text = "1.0";
             Types_dict.Add(Types_dict.Count, "[Neuer Typ]");
             Factor_dict.Add(Types_dict.Count, 1.0f);
+        }
+        private void btn_remove_type_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Types_dict.Remove(selected_index - 2);
+                Factor_dict.Remove(selected_index - 2);
+                Types.Items.RemoveAt(selected_index);
+                Factor.Items.RemoveAt(selected_index);
+                var temp_Types_dict = new Dictionary<int, string>();
+                var temp_Factor_dict = new Dictionary<int, float>();
+                int tempIndex = 0;
+                foreach (var kvp in Types_dict)
+                {
+                    temp_Types_dict.Add(tempIndex, kvp.Value);
+                    tempIndex++;
+                }
+                tempIndex = 0;
+                foreach (var kvp in Factor_dict)
+                {
+                    temp_Factor_dict.Add(tempIndex, kvp.Value);
+                    tempIndex++;
+                }
+                Types_dict = temp_Types_dict;
+                Factor_dict = temp_Factor_dict;
+            }
+            catch
+            {
+                MessageBox.Show("Bitte wählen sie einen Validen Typ den sie entfernen möchten aus.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            Types.SelectedIndex = -1;
         }
         #endregion
         #region Change Types
